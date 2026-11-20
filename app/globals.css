@@ -1,0 +1,151 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Saat 03:00 renk paleti
+  night   #0B1230  gece laciverdi (zemin)
+  dusk    #18204A  yüzey / çizgiler
+  moon    #ECE6D3  ay ışığı (ana metin)
+  haze    #8C96BF  sis (ikincil metin)
+  sodium  #F0A84B  sokak lambası (tek vurgu rengi)
+*/
+:root {
+  --night: #0b1230;
+  --dusk: #18204a;
+  --moon: #ece6d3;
+  --haze: #8c96bf;
+  --sodium: #f0a84b;
+
+  --radius: 0.75rem;
+  --background: var(--night);
+  --foreground: var(--moon);
+  --card: #10183a;
+  --card-foreground: var(--moon);
+  --popover: #121a3f;
+  --popover-foreground: var(--moon);
+  --primary: var(--sodium);
+  --primary-foreground: #1b1206;
+  --secondary: var(--dusk);
+  --secondary-foreground: var(--moon);
+  --muted: var(--dusk);
+  --muted-foreground: var(--haze);
+  --accent: #1f2858;
+  --accent-foreground: var(--moon);
+  --destructive: #e5675a;
+  --border: #232d5e;
+  --input: #2a3569;
+  --ring: #f0a84b;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-night: var(--night);
+  --color-dusk: var(--dusk);
+  --color-moon: var(--moon);
+  --color-haze: var(--haze);
+  --color-sodium: var(--sodium);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Newsreader Variable", Georgia, "Times New Roman", serif;
+
+  --animate-meteor: meteor 5s linear infinite;
+  --animate-lamp: lamp 2.8s ease-in-out infinite;
+
+  @keyframes meteor {
+    0% {
+      transform: rotate(var(--angle)) translateX(0);
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(var(--angle)) translateX(-500px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes lamp {
+    0%,
+    100% {
+      opacity: 1;
+      box-shadow: 0 0 0 0 rgb(240 168 75 / 0.55);
+    }
+    50% {
+      opacity: 0.75;
+      box-shadow: 0 0 0 6px rgb(240 168 75 / 0);
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    background-image:
+      radial-gradient(120% 70% at 50% -10%, #1d2763 0%, transparent 60%),
+      radial-gradient(80% 50% at 85% 110%, #141c47 0%, transparent 70%);
+    background-attachment: fixed;
+  }
+  ::selection {
+    background: rgb(240 168 75 / 0.35);
+    color: var(--moon);
+  }
+}
+
+/* Saat rakamları: ay ışığında hafif parlayan ince rakamlar */
+.clock-digits {
+  font-stretch: 75%;
+  font-feature-settings: "tnum" 1;
+  text-shadow:
+    0 0 40px rgb(236 230 211 / 0.18),
+    0 0 120px rgb(140 150 191 / 0.25);
+}
+
+/* Hilal ay */
+.moon {
+  border-radius: 9999px;
+  box-shadow:
+    inset -14px 6px 0 0 var(--moon),
+    0 0 60px 4px rgb(236 230 211 / 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-meteor,
+  .animate-lamp {
+    animation: none !important;
+  }
+  .meteor-layer {
+    display: none;
+  }
+}
